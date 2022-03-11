@@ -38,12 +38,13 @@ namespace Program
                     {
                         print_index = Max(x, i);
                         Console.WriteLine(x[print_index]);
-                        for(int j = print_index; j < n; j++)
+                        for(int j = print_index; j < n - 1; j++)
                         {
                             x[j] = x[j + 1];
                         }
                     }
                     i--;
+                    n--;
                 }
             }
         }

@@ -34,21 +34,18 @@ namespace Program
                 {
                     if (i == 0)
                         Console.WriteLine("0");
-                    else
+                    else if(i != 0)
                     {
                         print_index = Max(x, i);
                         Console.WriteLine(x[print_index]);
-                        Array.Clear(x, print_index, 1);
                         for(int j = print_index; j < n; j++)
                         {
                             x[j] = x[j + 1];
                         }
-                        i--;
-                        n--;
                     }
+                    i--;
                 }
             }
-
         }
     }
 }

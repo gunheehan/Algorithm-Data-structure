@@ -1,0 +1,47 @@
+using System;
+
+namespace Program
+{
+    class Programming
+    {
+        static int Min(int[] x, int i)
+        {
+            int min_num = 1000000000;
+            int min_index = 0;
+
+            for (int j = 0; j <= i; j++)
+            {
+                if (min_num > x[j])
+                {
+                    min_num = x[j];
+                    min_index = j;
+                }
+            }
+            return min_index;
+        }
+        static void Main()
+        {
+            int n = int.Parse(Console.ReadLine());
+            int print_index = 0;
+
+            int[] x = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                x[i] = int.Parse(Console.ReadLine());
+
+                if (x[i] == 0)
+                {
+                    i--;
+                    n--;
+                    print_index = Min(x, i);
+                    Console.WriteLine(x[print_index]);
+                    for (int j = print_index; j < n - 1; j++)
+                    {
+                        x[j] = x[j + 1];
+                    }
+                }
+            }
+        }
+    }
+}

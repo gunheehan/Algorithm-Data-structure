@@ -1,0 +1,41 @@
+using System;
+
+namespace Program
+{
+    class Programming
+    {
+        void Max_rank(int[] lotto, int[] win)
+        {
+            int max_count = 6;
+        }
+        static void Main()
+        {
+            int[] lotto = new int[6];
+            int[] win_nums = new int[6];
+
+            Console.WriteLine("소유한 Lotto 번호를 입력하시오.");
+            for(int i = 0; i < lotto.Length; i++)
+            {
+                lotto[i] = int.Parse(Console.ReadLine());
+                if(lotto[i] < 0 || lotto[i] > 45)
+                {
+                    Console.WriteLine("0~45 범위의 수를 입력하시오");
+                    i--;
+                }
+            }
+
+            Console.WriteLine("당첨 번호를 입력하시오.");
+            for(int i = 0; i < win_nums.Length; i++)
+            {
+                win_nums[i] = int.Parse(Console.ReadLine());
+                if(win_nums[i] < 1 || win_nums[i] > 45)
+                {
+                    Console.WriteLine("1~45 범위의 수를 입력하시오");
+                    i--;
+                }
+            }
+
+
+        }
+    }
+}

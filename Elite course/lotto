@@ -4,14 +4,50 @@ namespace Program
 {
     class Programming
     {
-        void Max_rank(int[] lotto, int[] win)
+        static int Max_rank(int[] lotto, int[] win)
         {
-            int max_count = 6;
+            int max_count = 7;
+
+            for(int i = 0; i < win.Length; i++)
+            {
+                for(int j = 0; j < lotto.Length; j++)
+                {
+                    if(win[i] == lotto[j] || lotto[j] == 0)
+                    {
+                        max_count--;
+                        break;
+                    }
+                }
+            }
+
+            return max_count;
+        }
+
+        static int Min_rank(int[] lotto, int[] win)
+        {
+            int min_count = 7;
+
+            for (int i = 0; i < win.Length; i++)
+            {
+                for (int j = 0; j < lotto.Length; j++)
+                {
+                    if (win[i] == lotto[j])
+                    {
+                        min_count--;
+                        break;
+                    }
+                }
+            }
+
+            return min_count;
         }
         static void Main()
         {
             int[] lotto = new int[6];
             int[] win_nums = new int[6];
+
+            int max_result;
+            int min_result;
 
             Console.WriteLine("소유한 Lotto 번호를 입력하시오.");
             for(int i = 0; i < lotto.Length; i++)
@@ -35,7 +71,10 @@ namespace Program
                 }
             }
 
+            max_result = Max_rank(lotto, win_nums);
+            min_result = Min_rank(lotto, win_nums);
 
+            Console.WriteLine("최대 : " + max_result + "\n최소 : " + min_result);
         }
     }
 }

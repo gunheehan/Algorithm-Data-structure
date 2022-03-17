@@ -26,13 +26,10 @@ namespace Program
                     max_grade--;
                     continue;
                 }
-                for (int j = 0; j < win.Length; j++)
+                else if(win_list.Contains(lotto[i]))
                 {
-                    if (lotto[i] == win[j])
-                    {
-                        max_grade--;
-                        min_grade--;
-                    }
+                    max_grade--;
+                    min_grade--;
                 }
             }
             if (min_grade == 7)

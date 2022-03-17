@@ -4,77 +4,42 @@ namespace Program
 {
     class Programming
     {
-        static int Max_rank(int[] lotto, int[] win)
-        {
-            int max_count = 7;
-
-            for(int i = 0; i < win.Length; i++)
-            {
-                for(int j = 0; j < lotto.Length; j++)
-                {
-                    if(win[i] == lotto[j] || lotto[j] == 0)
-                    {
-                        max_count--;
-                        break;
-                    }
-                }
-            }
-
-            return max_count;
-        }
-
-        static int Min_rank(int[] lotto, int[] win)
-        {
-            int min_count = 7;
-
-            for (int i = 0; i < win.Length; i++)
-            {
-                for (int j = 0; j < lotto.Length; j++)
-                {
-                    if (win[i] == lotto[j])
-                    {
-                        min_count--;
-                        break;
-                    }
-                }
-            }
-
-            return min_count;
-        }
         static void Main()
         {
-            int[] lotto = new int[6];
-            int[] win_nums = new int[6];
+            Console.WriteLine("구매한 복권의 번호를 작성하시오.(,로 구분됩니다.)");
+            string lotto_list = Console.ReadLine();
+            string[] lotto = new string[6];
+            lotto = lotto_list.Split(",");
 
-            int max_result;
-            int min_result;
+            Console.WriteLine("구매한 복권의 당첨 번호를 작성하시오.(,로 구분됩니다.)");
+            string win_list = Console.ReadLine();
+            string[] win = new string[6];
+            win = win_list.Split(",");
 
-            Console.WriteLine("소유한 Lotto 번호를 입력하시오.");
+            int max_grade = 7;
+            int min_grade = 7;
+
             for(int i = 0; i < lotto.Length; i++)
             {
-                lotto[i] = int.Parse(Console.ReadLine());
-                if(lotto[i] < 0 || lotto[i] > 45)
+                if (lotto[i] == "0")
                 {
-                    Console.WriteLine("0~45 범위의 수를 입력하시오");
-                    i--;
+                    max_grade--;
+                    continue;
+                }
+                for (int j = 0; j < win.Length; j++)
+                {
+                    if (lotto[i] == win[j])
+                    {
+                        max_grade--;
+                        min_grade--;
+                    }
                 }
             }
-
-            Console.WriteLine("당첨 번호를 입력하시오.");
-            for(int i = 0; i < win_nums.Length; i++)
-            {
-                win_nums[i] = int.Parse(Console.ReadLine());
-                if(win_nums[i] < 1 || win_nums[i] > 45)
-                {
-                    Console.WriteLine("1~45 범위의 수를 입력하시오");
-                    i--;
-                }
-            }
-
-            max_result = Max_rank(lotto, win_nums);
-            min_result = Min_rank(lotto, win_nums);
-
-            Console.WriteLine("최대 : " + max_result + "\n최소 : " + min_result);
+            if (min_grade == 7)
+                min_grade--;
+            if (max_grade == 7)
+                max_grade--;
+            Console.WriteLine("최대 등수 : " + max_grade + "\n최소 등수 : " + min_grade);
         }
     }
 }

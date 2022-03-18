@@ -1,0 +1,49 @@
+using System;
+
+namespace Program
+{
+    class Programming
+    {
+        static int[] solution(string[] id_list, string[] report, int k)
+        {
+            int[] answer = new int[id_list.Length];
+            int[] out_count = new int[id_list.Length];
+            for(int i = 0; i < id_list.Length; i++)
+            {
+                for(int j = 0; j < report.Length; j++)
+                {
+                    string[] id_report = report[j].Split();
+                    if(id_list[i] == id_report[1])
+                    {
+                        out_count[i]++;
+                    }
+                }
+            }
+
+            for(int i = 0; i <id_list.Length; i++)
+            {
+                if(out_count[i] >= k)
+                {
+                    for(int j = 0; j < report.Length; j++)
+                    {
+                        string[] id_report = report[j].Split();
+                        if (id_list[i] == id_report[1])
+                            for(int t = 0; t < id_list.Length; t++)
+                            {
+                                if (id_report[0] == id_list[t])
+                                    out_count[t]++;
+                            }
+                    }
+                }
+            }
+            return answer;
+        }
+        static void Main()
+        {
+            string[] id_list = new string[] { "muzi", "frodo","apeach", "neo" };
+            string[] report = new string[] { "muzi frodo", "apeach frodo", "frodo neo", "muzi neo", "apeach muzi" };
+
+            solution(id_list, report, 2);
+        }
+    }
+}

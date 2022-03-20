@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace Program
 {
@@ -7,40 +8,52 @@ namespace Program
         static int[] solution(string[] id_list, string[] report, int k)
         {
             int[] answer = new int[id_list.Length];
-            int[] out_count = new int[id_list.Length];
+            int[] id_out_count = new int[id_list.Length];
+
+            report = report.Distinct().ToArray();      
+
             for(int i = 0; i < id_list.Length; i++)
             {
                 for(int j = 0; j < report.Length; j++)
                 {
-                    string[] id_report = report[j].Split();
-                    if(id_list[i] == id_report[1])
-                    {
-                        out_count[i]++;
-                    }
+                    string[] answer_list = report[j].Split();
+
+                    if (id_list[i] == answer_list[1])
+                        id_out_count[i]++;
                 }
             }
 
-            for(int i = 0; i <id_list.Length; i++)
+            for (int i = 0; i < id_list.Length; i++)
             {
-                if(out_count[i] >= k)
+                if (id_out_count[i] >= k)
                 {
-                    for(int j = 0; j < report.Length; j++)
+                    for (int j = 0; j < report.Length; j++)
                     {
-                        string[] id_report = report[j].Split();
-                        if (id_list[i] == id_report[1])
-                            for(int t = 0; t < id_list.Length; t++)
+                        string[] report_list = report[j].Split();
+
+                        if (id_list[i] == report_list[1])
+                        {
+                            for (int t = 0; t < id_list.Length; t++)
                             {
-                                if (id_report[0] == id_list[t])
-                                    out_count[t]++;
+                                if (id_list[t] == report_list[0])
+                                {
+                                    answer[t]++;
+                                    break;
+                                }
                             }
+                        }
                     }
                 }
+            }
+            for(int i = 0; i < answer.Length; i++)
+            {
+                Console.WriteLine(answer[i]);
             }
             return answer;
         }
         static void Main()
         {
-            string[] id_list = new string[] { "muzi", "frodo","apeach", "neo" };
+            string[] id_list = new string[] { "muzi", "frodo", "apeach", "neo" };
             string[] report = new string[] { "muzi frodo", "apeach frodo", "frodo neo", "muzi neo", "apeach muzi" };
 
             solution(id_list, report, 2);

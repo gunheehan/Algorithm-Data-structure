@@ -23,8 +23,6 @@ namespace Program
             {
                 for(int j = 0; j < report.Length; j++)
                 {
-                    string[] answer_list = report[j].Split();
-
                     if (id_list[i] == report_list[j][1])
                         id_out_count[i]++;
                 }

@@ -4,39 +4,50 @@ namespace Program
 {
     class Programming
     {
+        public static int[] solution(string[] lottos, string[] win_nums)
+        {
+            int[] answer = new int[2] { 7, 7 }; // 2개번호가 일치했을 시 5등 이므로 최고, 최저 모두 7등부터 계산
+
+            for (int i = 0; i < lottos.Length; i++)
+            {
+                if (lottos[i] == "0") // 현재 번호가 0일 경우 최고 순위만 변경 후 다음 반복문 실행
+                {
+                    answer[0]--;
+                    continue;
+                }
+                for (int j = 0; j < win_nums.Length; j++)
+                {
+                    if (lottos[i] == win_nums[j]) // 현재 번호가 구매한 로또 번호와 일치할 경우 최고와 최저 순위 모두 변동
+                    {
+                        answer[0]--;
+                        answer[1]--;
+                    }
+                }
+            }
+            // 초기값이 저장되어 있을 경우 6위를 출력하기 위한 반복문
+            for (int i = 0; i < answer.Length; i++)
+            {
+                if (answer[i] == 7)
+                    answer[i]--;
+            }
+
+            return answer;
+        }
+        
         static void Main()
         {
             Console.WriteLine("구매한 복권의 번호를 작성하시오.(,로 구분됩니다.)");
             string lotto_list = Console.ReadLine();
             string[] lotto = new string[6];
-            lotto = lotto_list.Split(",");
+            lotto = lotto_list.Split(","); // ,를 기준으로 입력된 문자열을 배열에 저장
 
             Console.WriteLine("구매한 복권의 당첨 번호를 작성하시오.(,로 구분됩니다.)");
             string win_list = Console.ReadLine();
             string[] win = new string[6];
             win = win_list.Split(",");
 
-            int max_grade = 7;
-            int min_grade = 7;
-
-            for(int i = 0; i < lotto.Length; i++)
-            {
-                if (lotto[i] == "0")
-                {
-                    max_grade--;
-                    continue;
-                }
-                else if(win_list.Contains(lotto[i]))
-                {
-                    max_grade--;
-                    min_grade--;
-                }
-            }
-            if (min_grade == 7)
-                min_grade--;
-            if (max_grade == 7)
-                max_grade--;
-            Console.WriteLine("최대 등수 : " + max_grade + "\n최소 등수 : " + min_grade);
+            int[] result = solution(lotto, win);
+            Console.WriteLine("최고 순위 : " + result[0] + "\n최저 순위 : " + result[1]);
         }
     }
 }

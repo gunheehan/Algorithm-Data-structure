@@ -1,0 +1,64 @@
+using System;
+
+namespace Program
+{
+    class Programming
+    {
+
+        static void Cir_queue(int size)
+        {
+            int[] queue = new int[size];
+            int front = 0;
+            int rear = 0;
+
+            while (true)
+            {
+                Console.WriteLine("작업을 선택하시오.\n1. 추가, 2. 삭제, 3. 종료");
+                int input_num = int.Parse(Console.ReadLine());
+
+                if (input_num == 1)
+                {
+                    if ((rear + 1) % size == front % size)
+                    {
+                        Console.WriteLine("큐가 가득 차있습니다.");
+                        continue;
+                    }
+                    else
+                    {
+                        Console.WriteLine("추가할 데이터를 입력하시오.");
+                        int data = int.Parse(Console.ReadLine());
+                        rear = (rear + 1) % size;
+                        queue[rear] = data;
+                    }
+                }
+
+                else if (input_num == 2)
+                {
+                    if(front == rear)
+                    {
+                        Console.WriteLine("큐가 비어있는 상태입니다.");
+                        continue;
+                    }
+                    else
+                    {
+                        Console.WriteLine("삭제된 데이터 : " + queue[front]);
+                        front = (front + 1) % size;
+                    }
+                }
+
+                else if(input_num == 3)
+                {
+                    Console.WriteLine("프로그램 종료");
+                    break;
+                }
+            }
+        }
+        static void Main()
+        {
+            Console.WriteLine("원형 큐의 크기를 넣으시오.");
+            int size = int.Parse(Console.ReadLine());
+
+            Cir_queue(size);
+        }
+    }
+}

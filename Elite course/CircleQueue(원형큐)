@@ -4,7 +4,6 @@ namespace Program
 {
     class Programming
     {
-
         static void Cir_queue(int size)
         {
             int[] queue = new int[size];
@@ -13,7 +12,7 @@ namespace Program
 
             while (true)
             {
-                Console.WriteLine("작업을 선택하시오.\n1. 추가, 2. 삭제, 3. 종료");
+                Console.WriteLine("작업을 선택하시오.\n1. 추가, 2. 삭제, 3. 현재 데이터 출력, 4. 종료");
                 int input_num = int.Parse(Console.ReadLine());
 
                 if (input_num == 1)
@@ -34,19 +33,33 @@ namespace Program
 
                 else if (input_num == 2)
                 {
-                    if(front == rear)
+                    if (front == rear)
                     {
                         Console.WriteLine("큐가 비어있는 상태입니다.");
                         continue;
                     }
                     else
                     {
-                        Console.WriteLine("삭제된 데이터 : " + queue[front]);
-                        front = (front + 1) % size;
+                        if (queue[front] == 0)
+                        {
+                            front = (front + 1) % size;
+                            Console.WriteLine("초기 Front가 삭제되었습니다.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("삭제된 데이터 : " + queue[front]);
+                            front = (front + 1) % size;
+                        }
                     }
                 }
-
                 else if(input_num == 3)
+                {
+                    for(int i = rear; (i + 1) % size == front % size; i++)
+                    {
+                        Console.WriteLine(queue[i]);
+                    }
+                }
+                else if (input_num == 4)
                 {
                     Console.WriteLine("프로그램 종료");
                     break;

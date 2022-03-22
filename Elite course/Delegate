@@ -1,0 +1,52 @@
+using System;
+
+namespace Program
+{
+    class Delegate
+    {
+        delegate bool SelectOrderType(int a, int b);
+
+        static bool Ascending(int a, int b)
+        {
+            return (a > b);
+        }
+
+        static bool Descending(int a, int b)
+        {
+            return (a < b);
+        }
+        static void BubbleSort(int[] numberArray, SelectOrderType selectOrderType)
+        {
+            for (int i = 0; i < numberArray.Length - 1; i++)
+            {
+                for (int j = 0; j < numberArray.Length - (i + 1); j++)
+                {
+                    if (selectOrderType(numberArray[j], numberArray[j + 1]))
+                    {
+                        int temp = numberArray[j + 1];
+                        numberArray[j + 1] = numberArray[j];
+                        numberArray[j] = temp;
+                    }
+                }
+            }
+        }
+        static void Main(string[] args)
+        {
+            int[] numberArray = { 22, 11, 55, 3, 17 };
+
+            BubbleSort(numberArray, new SelectOrderType(Ascending)); // 오름차순 정렬
+
+            foreach (var num in numberArray)
+            {
+                Console.Write($"{num} ");
+            }
+
+            Console.WriteLine();
+            BubbleSort(numberArray, new SelectOrderType(Descending));// 내림차순 정렬
+            foreach (var num in numberArray)
+            {
+                Console.Write($"{num} ");
+            }
+        }
+    }
+}

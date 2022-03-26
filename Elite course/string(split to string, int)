@@ -1,21 +1,25 @@
 using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace Program
 {
     class Programming
     {
         // 배열 혹은 리스트에 숫자와 문자열을 순서대로 기입
-        // string이 숫자인지 식별. Linq ==> StringName.All(char.IsDigit) *bool로 반환
+        // string이 숫자인지 식별. Linq ==> StringName.All(char.IsDigit) *bool로 반환 or Regex.IsMatch(number, @"^[0-9]+$")
         // 반환 값 적재하여 반복문 종료 후 적재된 string 데이터 int형으로 변환하여 반환
-        public int solution(string s)
+        public static int solution(string s)
         {
             int answer = 0;
+            string[] s_split = Regex.Split(s, @"\s+");
             return answer;
         }
         static void Main()
         {
             string index = "one4seveneight";
+
+            solution(index);
         }
     }
 }

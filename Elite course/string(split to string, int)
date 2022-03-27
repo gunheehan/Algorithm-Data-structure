@@ -13,9 +13,14 @@ namespace Program
             string[] s_split = new string[s.Length];
 
             Console.WriteLine(s_split.Length);
+
             for(int i = 0; i < s_split.Length; i++)
             {
                 s_split[i] = s.Substring(i, 1);
+            }
+            for(int i = 0; i < s_split.Length; i++)
+            {
+                Console.WriteLine(s_split[i]);
 
                 if(int.TryParse(s_split[i],out n))
                 {
@@ -96,7 +101,7 @@ namespace Program
         }
         static void Main()
         {
-            string index = "one4zeroeight";
+            string index = "23four5six7";
 
             solution(index);
         }

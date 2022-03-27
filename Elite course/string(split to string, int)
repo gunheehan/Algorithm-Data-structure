@@ -1,23 +1,102 @@
 using System;
-using System.Collections;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Program
 {
     class Programming
     {
-        // 배열 혹은 리스트에 숫자와 문자열을 순서대로 기입
-        // string이 숫자인지 식별. Linq ==> StringName.All(char.IsDigit) *bool로 반환 or Regex.IsMatch(number, @"^[0-9]+$")
-        // 반환 값 적재하여 반복문 종료 후 적재된 string 데이터 int형으로 변환하여 반환
         public static int solution(string s)
         {
+            List<int> result = new List<int>();
             int answer = 0;
-            string[] s_split = Regex.Split(s, @"\s+");
+            int n;
+            string[] s_split = new string[s.Length];
+
+            Console.WriteLine(s_split.Length);
+            for(int i = 0; i < s_split.Length; i++)
+            {
+                s_split[i] = s.Substring(i, 1);
+
+                if(int.TryParse(s_split[i],out n))
+                {
+                    result.Add(int.Parse(s_split[i]));
+                }
+
+                else
+                {
+                    switch(s_split[i])
+                    {
+                        case "o":
+                            result.Add(1);
+                            i += 2;
+                            break;
+                        case "t":
+                            if (s_split[i + 1] == "w")
+                            {
+                                result.Add(2);
+                                i += 2;
+                            }
+                            else
+                            {
+                                result.Add(3);
+                                i += 4;
+                            }
+                            break;
+                        case "f":
+                            if(s_split[i+1]=="o")
+                            {
+                                result.Add(4);
+                                i += 3;
+                            }
+                            else
+                            {
+                                result.Add(5);
+                                i += 3;
+                            }
+                            break;
+                        case "s":
+                            if(s_split[i+1] == "i")
+                            {
+                                result.Add(6);
+                                i += 2;
+                            }
+                            else
+                            {
+                                result.Add(7);
+                                i += 4;
+                            }
+                            break;
+                        case "e":
+                            result.Add(8);
+                            i += 4;
+                            break;
+                        case "n":
+                            result.Add(9);
+                            i += 3;
+                            break;
+                        default:
+                            result.Add(0);
+                            i += 3;
+                            break;
+                    }
+                }
+            }
+            for (int i = 0; i < result.Count; i++)
+            {
+                Console.WriteLine(result[i]);
+            }
+
+            for(int i = 0; i < result.Count; i++)
+            {
+                int index = result.Count - (i+1);
+                answer += ((int)Math.Pow(10,index) * result[i]);
+            }
+            Console.WriteLine(answer);
             return answer;
         }
         static void Main()
         {
-            string index = "one4seveneight";
+            string index = "one4zeroeight";
 
             solution(index);
         }

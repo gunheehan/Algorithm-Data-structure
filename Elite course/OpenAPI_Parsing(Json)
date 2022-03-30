@@ -1,0 +1,42 @@
+using UnityEngine; 
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Net;
+
+public class Data_parsing : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        string requestURL = "http://data.ex.co.kr/openapi/safeDriving/forecast?key=test&type=json";
+        WebRequest request = WebRequest.Create(requestURL);
+        request.Method = "GET";
+        request.ContentType = "application/json";
+
+        using (WebResponse response = request.GetResponse())
+        using (Stream stream = response.GetResponseStream())
+        using (StreamReader reader = new StreamReader(stream))
+        {
+            string data = reader.ReadToEnd();
+            var obj = JObject.Parse(data);
+            var list = obj["list"];
+
+            UnityEngine.Debug.Log("============ List ============");
+            UnityEngine.Debug.Log(obj);
+
+            UnityEngine.Debug.Log("============ Item ============");
+            foreach (var item in list)
+            {
+                UnityEngine.Debug.Log(string.Format("{0}: {1}", "날짜", item["sdate"]));
+                UnityEngine.Debug.Log(string.Format("{0}: {1}", "시간", item["stime"]));
+                UnityEngine.Debug.Log(string.Format("{0}: {1}", "전국 교통량", item["cjunkook"]));
+                UnityEngine.Debug.Log(string.Format("{0}: {1}", "지방 방향 교통량", item["cjibangDir"]));
+                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울 방향 교통량", item["cseoulDir"]));
+                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->대전 소요시간", item["csudj"]));
+                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->대구 소요시간", item["csudg"]));
+                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->울산 소요시간", item["csuus"]));
+                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->부산 소요시간", item["csubs"]));
+            }
+        }
+    }
+}

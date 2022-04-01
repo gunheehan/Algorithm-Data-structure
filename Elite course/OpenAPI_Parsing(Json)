@@ -1,42 +1,115 @@
-using UnityEngine; 
+using UnityEngine;
 using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
 using System.Net;
 
 public class Data_parsing : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [Serializable]
+    class Data_list
+    {
+        public Data_name[] list;
+        public short count;
+        public string message;
+        public string code;
+    }
+    [Serializable]
+    class Data_name
+    {
+        public string sdate;
+        public string stime;
+        public string cjunkook;
+        public string cjibangDir;
+        public string cseoulDir;
+        public string csudj;
+        public string csudg;
+        public string csuus;
+        public string csubs;
+        public string csugj;
+        public string csump;
+        public string csukr;
+        public string cdjsu;
+        public string cdgsu;
+        public string cussu;
+        public string cbssu;
+        public string cgjsu;
+        public string cmpsu;
+        public string ckrsu;
+        public string csuyy;
+        public string cyysu;
+        public string csudj_bus;
+        public string csudg_bus;
+        public string csuus_bus;
+        public string csubs_bus;
+        public string csugj_bus;
+        public string csump_bus;
+        public string csukr_bus;
+        public string csuyy_bus;
+        public string cdjsu_bus;
+        public string cdgsu_bus;
+        public string cussu_bus;
+        public string cbssu_bus;
+        public string cgjsu_bus;
+        public string cmpsu_bus;
+        public string ckrsu_bus;
+        public string cyysu_bus;
+    }
+
     void Start()
     {
+        #region API Json으로 읽어오기
         string requestURL = "http://data.ex.co.kr/openapi/safeDriving/forecast?key=test&type=json";
         WebRequest request = WebRequest.Create(requestURL);
         request.Method = "GET";
         request.ContentType = "application/json";
 
-        using (WebResponse response = request.GetResponse())
-        using (Stream stream = response.GetResponseStream())
-        using (StreamReader reader = new StreamReader(stream))
+        WebResponse response = request.GetResponse();
+        Stream stream = response.GetResponseStream();
+        StreamReader reader = new StreamReader(stream);
+
+        string data = reader.ReadToEnd(); // TextData
+        JObject obj = JObject.Parse(data); // JsonData
+        #endregion
+
+        #region Jtoken 활용방식
+        var list = obj["list"];
+
+        UnityEngine.Debug.Log("============ JToken Data ============");
+        UnityEngine.Debug.Log(list);
+
+        UnityEngine.Debug.Log("============ JToken ============");
+        foreach (var item in list)
         {
-            string data = reader.ReadToEnd();
-            var obj = JObject.Parse(data);
-            var list = obj["list"];
-
-            UnityEngine.Debug.Log("============ List ============");
-            UnityEngine.Debug.Log(obj);
-
-            UnityEngine.Debug.Log("============ Item ============");
-            foreach (var item in list)
-            {
-                UnityEngine.Debug.Log(string.Format("{0}: {1}", "날짜", item["sdate"]));
-                UnityEngine.Debug.Log(string.Format("{0}: {1}", "시간", item["stime"]));
-                UnityEngine.Debug.Log(string.Format("{0}: {1}", "전국 교통량", item["cjunkook"]));
-                UnityEngine.Debug.Log(string.Format("{0}: {1}", "지방 방향 교통량", item["cjibangDir"]));
-                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울 방향 교통량", item["cseoulDir"]));
-                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->대전 소요시간", item["csudj"]));
-                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->대구 소요시간", item["csudg"]));
-                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->울산 소요시간", item["csuus"]));
-                UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->부산 소요시간", item["csubs"]));
-            }
+            UnityEngine.Debug.Log(string.Format("{0}: {1}", "날짜", item["sdate"]));
+            UnityEngine.Debug.Log(string.Format("{0}: {1}", "시간", item["stime"]));
+            UnityEngine.Debug.Log(string.Format("{0}: {1}", "전국 교통량", item["cjunkook"]));
+            UnityEngine.Debug.Log(string.Format("{0}: {1}", "지방 방향 교통량", item["cjibangDir"]));
+            UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울 방향 교통량", item["cseoulDir"]));
+            UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->대전 소요시간", item["csudj"]));
+            UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->대구 소요시간", item["csudg"]));
+            UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->울산 소요시간", item["csuus"]));
+            UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->부산 소요시간", item["csubs"]));
         }
+        #endregion
+
+        #region JsonUtility 활용방식
+        Data_list date = JsonUtility.FromJson<Data_list>(data);
+
+        UnityEngine.Debug.Log("============ JsonUtility Data ============");
+        UnityEngine.Debug.Log(date);
+
+        UnityEngine.Debug.Log("============ JsonUtility ============");
+        UnityEngine.Debug.Log(string.Format("{0}: {1}", "날짜", date.list[0].sdate));
+        UnityEngine.Debug.Log(string.Format("{0}: {1}", "시간", date.list[0].stime));
+        UnityEngine.Debug.Log(string.Format("{0}: {1}", "전국 교통량", date.list[0].cjunkook));
+        UnityEngine.Debug.Log(string.Format("{0}: {1}", "지방 방향 교통량", date.list[0].cjibangDir));
+        UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울 방향 교통량", date.list[0].cseoulDir));
+        UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->대전 소요시간", date.list[0].csudj));
+        UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->대구 소요시간", date.list[0].csudg));
+        UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->울산 소요시간", date.list[0].csuus));
+        UnityEngine.Debug.Log(string.Format("{0}: {1}", "서울->부산 소요시간", date.list[0].csubs));
+
+        #endregion
     }
 }
